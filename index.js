@@ -1,24 +1,55 @@
 'use strict';
 var isFinite = require('is-finite');
 
-module.exports = function (str, n) {
-	if (typeof str !== 'string') {
-		throw new TypeError('Expected `input` to be a string');
-	}
+module.exports = function($string, $count, $delimiter) {
+  if (typeof str !== 'string') throw new TypeError('Expected input to be a string');
+  if (n < 0 || !isFinite(n)) throw new TypeError('Expect count to be a positive, finite integer');
 
-	if (n < 0 || !isFinite(n)) {
-		throw new TypeError('Expected `count` to be a positive finite number');
-	}
+  var repeat = '';
+  var string = '';
 
-	var ret = '';
+  if (typeof $string === 'string') {
+    if (typeof $delimiter === 'undefined') {
 
-	do {
-		if (n & 1) {
-			ret += str;
-		}
+      do {
+        if ($count & 1) repeat += $string;
+        $string += $string;
+      } while (($count >>= 1));
 
-		str += str;
-	} while ((n >>= 1));
+    } else if (typeof $delimiter === 'string') {
 
-	return ret;
+      string = $string + $delimiter;
+      do {
+        if ($count & 1) repeat += string;
+        string += string;
+      } while (($count >>= 1));
+
+    } else if ($delimiter.constructor === Object) {
+
+      string = [];
+      while ($count > 0) {
+        string.push($string);
+        --$count;
+      }
+
+      $delimiter.def = $delimiter.def || '';
+      $delimiter.pre = $delimiter.pre || '';
+      $delimiter.pst = $delimiter.pst || '';
+
+      var i = 0;
+      for (; i < $count; i++) {
+        repeat += string[i] + ($delimiter < $count
+          ? ($delimiter[i + 1] || $delimiter.def)
+          : ''
+        );
+        repeat = $delimiter.pre + repeat + $delimter.pst;
+      }
+    }
+  } else if ($string.constructor === Array) {
+
+    console.log('');
+
+  }
+
+  return repeat;
 };
