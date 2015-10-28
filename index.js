@@ -1,55 +1,50 @@
 'use strict';
 var isFinite = require('is-finite');
 
-module.exports = function($string, $count, $delimiter) {
-  if (typeof str !== 'string') throw new TypeError('Expected input to be a string');
-  if (n < 0 || !isFinite(n)) throw new TypeError('Expect count to be a positive, finite integer');
+function upprepa($input, $count, $delimiter) {
+  var i, Input, Return = '';
 
-  var repeat = '';
-  var string = '';
-
-  if (typeof $string === 'string') {
-    if (typeof $delimiter === 'undefined') {
-
-      do {
-        if ($count & 1) repeat += $string;
-        $string += $string;
-      } while (($count >>= 1));
-
-    } else if (typeof $delimiter === 'string') {
-
-      string = $string + $delimiter;
-      do {
-        if ($count & 1) repeat += string;
-        string += string;
-      } while (($count >>= 1));
-
-    } else if ($delimiter.constructor === Object) {
-
-      string = [];
-      while ($count > 0) {
-        string.push($string);
-        --$count;
-      }
-
-      $delimiter.def = $delimiter.def || '';
-      $delimiter.pre = $delimiter.pre || '';
-      $delimiter.pst = $delimiter.pst || '';
-
-      var i = 0;
-      for (; i < $count; i++) {
-        repeat += string[i] + ($delimiter < $count
-          ? ($delimiter[i + 1] || $delimiter.def)
-          : ''
-        );
-        repeat = $delimiter.pre + repeat + $delimter.pst;
-      }
-    }
-  } else if ($string.constructor === Array) {
-
-    console.log('');
-
+  if ($count <= 0 || !isFinite($count)) {
+    throw new Error('Try passing a finite positive number for the count parameter!');
   }
 
-  return repeat;
-};
+  if (typeof $delimiter === 'object') {
+
+    $delimiter.def = $delimiter.def || ' ';
+
+    if ($input.constructor === String) {
+      Input = [];
+      for(i = $count; i > 0; i--) {
+        Input.push($input);
+      }
+    } else {
+      Input = $input;
+    }
+
+    for(i = 0; i < $count; i++) {
+      Return += i === 0
+        ? ($delimiter.pre||'') + String(Input[i]) + ($delimiter[i+1]||$delimiter.def)
+        : (i === $count-1)
+          ? String(Input[i]) + ($delimiter.post || '')
+          : String(Input[i]) + ($delimiter[i+1] || $delimiter.def);
+    }
+
+  } else {
+
+    $delimiter = $delimiter || ' ';
+
+    if ($input.constructor === String) {
+      for(i = 0; i < $count; i++) {
+        Return += i === $count - 1
+          ? $input
+          : $input + $delimiter;
+      }
+    } else if ($input.constructor === Array) {
+      Return = $input.join($delimiter);
+    }
+
+  }
+  return Return;
+}
+
+module.exports = upprepa;

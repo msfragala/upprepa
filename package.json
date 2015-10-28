@@ -1,13 +1,12 @@
 {
-  "name": "repeating",
+  "name": "upprepa",
   "version": "2.0.0",
-  "description": "Repeat a string - fast",
+  "description": "Repeat a string, with better delimiters.",
   "license": "MIT",
-  "repository": "sindresorhus/repeating",
+  "repository": "msfragala/upprepa",
   "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "sindresorhus.com"
+    "name": "Mitchell Gates",
+    "email": "ms.fragala@gmail.com",
   },
   "engines": {
     "node": ">=0.10.0"
@@ -24,13 +23,16 @@
     "string",
     "str",
     "text",
-    "fill"
+    "fill",
+    "delimiter",
+    "multiply"
   ],
   "dependencies": {
     "is-finite": "^1.0.0"
   },
   "devDependencies": {
     "mocha": "*",
+    "performance-now": "^0.2.0",
     "should": "*"
   }
 }
