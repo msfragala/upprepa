@@ -1,6 +1,6 @@
 {
   "name": "upprepa",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Repeat a string, with better delimiters.",
   "license": "MIT",
   "repository": "msfragala/upprepa",
