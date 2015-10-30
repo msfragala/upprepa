@@ -1,11 +1,7 @@
 # upprepa
 It means 'to repeat' in [Swedish](https://en.wiktionary.org/wiki/upprepa); it's not a very creative name, I know.
 
-## Install
-
-```
-$ npm install --save upprepa
-```
+![](save-lives.jpg)
 
 ## Usage
 Repeat a string to your heart's content!
