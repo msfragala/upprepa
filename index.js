@@ -3,6 +3,7 @@ var isFinite = require('is-finite');
 
 function upprepa($input, $count, $delimiter) {
   var i, Input, Return = '';
+  var def, ante, post;
 
   if ($count <= 0 || !isFinite($count)) {
     throw new Error('Try passing a finite positive number for the count parameter!');
@@ -10,7 +11,9 @@ function upprepa($input, $count, $delimiter) {
 
   if (typeof $delimiter === 'object') {
 
-    $delimiter.def = $delimiter.def || ' ';
+    def = $delimiter.def || ' ';
+    ante = $delimiter.pre || '';
+    post = $delimiter.post || '';
 
     if ($input.constructor === String) {
       Input = [];
@@ -21,12 +24,14 @@ function upprepa($input, $count, $delimiter) {
       Input = $input;
     }
 
-    for(i = 0; i < $count; i++) {
-      Return += i === 0
-        ? ($delimiter.pre||'') + String(Input[i]) + ($delimiter[i+1]||$delimiter.def)
-        : (i === $count-1)
-          ? String(Input[i]) + ($delimiter.post || '')
-          : String(Input[i]) + ($delimiter[i+1] || $delimiter.def);
+    for(i = 0; i < Input.length; i++) {
+      Return += (Input.length === 1)
+        ? ante + Input[i] + post
+        : (i === 0)
+          ? ante + Input[i] + ($delimiter[i+1] || def)
+          : (i === Input.length-1)
+            ? Input[i] + post
+            : Input[i] + ($delimiter[i+1] || def);
     }
 
   } else {
